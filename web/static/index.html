@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/pretty-print-json@1.2/dist/pretty-print-json.css>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
+    <style>
+        html {
+          scroll-padding-top: 70px;
+        }
+    </style>
+    <title>Uniform blockchain API - stocra</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<main class="flex-shrink-0">
+    <nav class="navbar navbar-expand-lg navbar bg-white fixed-top border-bottom">
+        <div class="container px-5">
+            <img src="/favicon.png" alt="logo">&nbsp;
+            <a class="navbar-brand" href="/" style="color:#365b6d;">stocra</a>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#tryit">Try it</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#blockchains">Blockchains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#api">API</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#limits">Limits</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs">Documentation<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://status.stocra.com">Status page<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/stocra/sdk-python">SDK<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <header>
+        <div class="container px-5 pt-5">
+            <div class="row">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="fw-bolder mb-2">Access transaction data from multiple
+                        cryptocurrencies in uniform format</h1>
+                    <p class="lead fw-normal mb-4">Bitcoin, Ethereum (including ERC-20), Litecoin, Dogecoin, Cardano, Aptos and
+                        more coming!</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                        <a class="btn btn-primary btn px-4" href="#tryit">Try it!</a>
+                        <a class="btn btn-secondary btn px-4" href="/docs">See documentation<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container px-5 my-3">
+            <div class="row">
+                <p class="lead">
+                    Reading blockchain data is difficult: different APIs, different responses, different transfer operations.
+                    Stocra is built with a single purpose - to simplify access to transaction data across multiple blockchains.
+                    We give you a single, uniform API to gather all transfers regardless of the underlying blockchain data structures.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="tryit">
+        <div class="container px-5 my-5">
+            <h2 class="display-10 fw-bolder">Try it!</h2>
+            <div class="row">
+                <div class="input-group mb-3">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://bitcoin.stocra.com/v1.0/transactions/919dac4c70c271a9c836063e2c593cf898fc4ce98fb25b4184ec9a590c53d6e4');">
+                        Bitcoin transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://bitcoin.stocra.com/v1.0/blocks/latest')">Bitcoin latest
+                        block
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://ethereum.stocra.com/v1.0/transactions/0xf30d7b67adaba2dc9ff0299d0dd195d730491ab9234d76786ce7fe2bec655991');">
+                        Ethereum Transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://ethereum.stocra.com/v1.0/transactions/0x0fb48e3265839dc426d165dad0717005a4c82e71d1420b69137c827cdf0bdab3');">
+                        ERC-20 transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://ethereum.stocra.com/v1.0/transactions/0xbf8401aba368fe5d28a2de4fd7b553d492d57456cceaee6d037c6d804da6ffc1');">
+                        Failed ERC-20 transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://cardano.stocra.com/v1.0/transactions/0f371054c1b3cc1aeadd68a5bee7d8547b12a7e659716043feb4c3c0163378c0');">
+                        Cardano transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://aptos.stocra.com/v1.0/transactions/0x37ef946a50944a0dc76ba30c1e7004c3457a084826fb64ab7723394bcac5b7dc');">
+                        Aptos account transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://aptos.stocra.com/v1.0/transactions/0xc64ce0e4d0739867879deaffcb9c6f828b214bbd429fa19843a3efc8387095ed');">
+                        Aptos coin transaction
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            onclick="apply_example('https://aptos.stocra.com/v1.0/transactions/0xa75cce3816fd112031fc1d79ed865bf27b77cb64602bc4cd0ff6c2ed556fcb9c');">
+                        Aptos non-transfer transaction
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group mb-1">
+                    <input type="text"
+                           value="https://bitcoin.stocra.com/v1.0/transactions/919dac4c70c271a9c836063e2c593cf898fc4ce98fb25b4184ec9a590c53d6e4"
+                           class="form-control" id="url">
+                    <span class="input-group-text sm-1">Status:&nbsp;<span id="status-code">200</span></span>
+                    <button class="input-group-btn btn btn-primary" type="button" id="run">Submit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group mb-3" style="overflow:hidden;">
+                    <pre class="w-100 border form-control" id="code-output"
+                         style="overflow:scroll;height:400px;resize:both;font-size:10px">
+<span class="json-mark">{</span>
+    <span class="json-key">"hash"</span><span class="json-mark">: </span><span class="json-string">"919dac4c70c271a9c836063e2c593cf898fc4ce98fb25b4184ec9a590c53d6e4"</span><span class="json-mark">,</span>
+    <span class="json-key">"inputs"</span><span class="json-mark">: </span><span class="json-mark">[</span>
+        <span class="json-mark">{</span>
+            <span class="json-key">"address"</span><span class="json-mark">: </span><span class="json-string">"bc1qsxw05hkeet7lx7rfuwxqq5jkvdm6t8q0huep3y"</span><span class="json-mark">,</span>
+            <span class="json-key">"amount"</span><span class="json-mark">: </span><span class="json-mark">{</span>
+                <span class="json-key">"value"</span><span class="json-mark">: </span><span class="json-string">"0.0025431"</span><span class="json-mark">,</span>
+                <span class="json-key">"currency_symbol"</span><span class="json-mark">: </span><span class="json-string">"BTC"</span>
+            <span class="json-mark">},</span>
+            <span class="json-key">"transaction_pointer"</span><span class="json-mark">: </span><span class="json-mark">{</span>
+                <span class="json-key">"transaction_hash"</span><span class="json-mark">: </span><span class="json-string">"290fa5fbc20f2e90b1f72dcd8f88ab5e782848a46eb04294476f0938ce683740"</span><span class="json-mark">,</span>
+                <span class="json-key">"output_index"</span><span class="json-mark">: </span><span class="json-number">0</span>
+            <span class="json-mark">}</span>
+        <span class="json-mark">}</span>
+    <span class="json-mark">],</span>
+    <span class="json-key">"outputs"</span><span class="json-mark">: </span><span class="json-mark">[</span>
+        <span class="json-mark">{</span>
+            <span class="json-key">"address"</span><span class="json-mark">: </span><span class="json-string">"bc1qugv05rfmrjcd03cuzp3uddf7cxd2plsjeq89z8"</span><span class="json-mark">,</span>
+            <span class="json-key">"amount"</span><span class="json-mark">: </span><span class="json-mark">{</span>
+                <span class="json-key">"value"</span><span class="json-mark">: </span><span class="json-string">"0.00203327"</span><span class="json-mark">,</span>
+                <span class="json-key">"currency_symbol"</span><span class="json-mark">: </span><span class="json-string">"BTC"</span>
+            <span class="json-mark">}</span>
+        <span class="json-mark">},</span>
+        <span class="json-mark">{</span>
+            <span class="json-key">"address"</span><span class="json-mark">: </span><span class="json-string">"1G2iU6Pj2fiTgJ6TnLGFG94vMEyg4iq3Kq"</span><span class="json-mark">,</span>
+            <span class="json-key">"amount"</span><span class="json-mark">: </span><span class="json-mark">{</span>
+                <span class="json-key">"value"</span><span class="json-mark">: </span><span class="json-string">"0.00050678"</span><span class="json-mark">,</span>
+                <span class="json-key">"currency_symbol"</span><span class="json-mark">: </span><span class="json-string">"BTC"</span>
+            <span class="json-mark">}</span>
+        <span class="json-mark">}</span>
+    <span class="json-mark">],</span>
+    <span class="json-key">"fee"</span><span class="json-mark">: </span><span class="json-mark">{</span>
+        <span class="json-key">"value"</span><span class="json-mark">: </span><span class="json-string">"0.00000305"</span><span class="json-mark">,</span>
+        <span class="json-key">"currency_symbol"</span><span class="json-mark">: </span><span class="json-string">"BTC"</span>
+    <span class="json-mark">}</span>
+<span class="json-mark">}</span>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="blockchains">
+        <div class="container px-5 my-5">
+            <h2 class="display-10 fw-bolder mb-3">Supported blockchains</h2>
+            <div class="row ps-3">
+                <div class="col p-0">
+                    The following blockchains and their cryptocurrencies are supported by stocra at this moment:
+                    <ul class="ps-5 py-2">
+                        <li>Bitcoin - BTC: <a href="http://bitcoin.stocra.com">bitcoin.stocra.com</a></li>
+                        <li>Ethereum - ETH, ERC-20 token transfers: <a href="http://ethereum.stocra.com">ethereum.stocra.com</a>.
+                            Token transfers return contract address in <i>currency_symbol</i> field.
+                            You can get token name, symbol and scaling from <a
+                                    href="http://ethereum.stocra.com/v1.0/tokens">/tokens</a> endpoint</li>
+                        <li>Litecoin - LTC: <a href="http://litecoin.stocra.com">litecoin.stocra.com</a></li>
+                        <li>Dogecoin - DOGE: <a href="http://dogecoin.stocra.com">dogecoin.stocra.com</a></li>
+                        <li>Cardano - ADA: <a href="http://cardano.stocra.com">cardano.stocra.com</a></li>
+                        <li>Aptos - APT, <i>0x1::aptos_account::transfer</i>, <i>0x1::coin::transfer</i>: <a href="http://aptos.stocra.com">aptos.stocra.com</a></li>
+                    </ul>
+                    We are constantly working on adding additional ones. These are in process of being added to our API:
+                    <ul class="ps-5 py-2">
+                        <li>EOS</li>
+                    </ul>
+                    Do you want us to add another blockchain or cryptocurrency? <a href="#contact" class="w-auto">Let us
+                    know</a>.
+                    <br>
+                    Would you like to hear when we add a new one? <a href="#newsletter">Subscribe to our newsletter</a>.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="api">
+        <div class="container px-5 my-5">
+            <div class="row">
+                <h2 class="display-10 fw-bolder mb-3">API</h2>
+                <div class="col p0">
+                    We have two data structures, blocks and transactions.
+                    Blocks have height, hash, timestamp and list of transaction hashes.
+                    Transactions have hash, inputs, outputs and fees. That's it.
+                    <br><br>
+                    You can head straight to the <a href="/docs">documentation<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a> or play with our <a href="https://github.com/stocra/sdk-python">python SDK<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a>
+                    to get a feel for the API.
+                </div>
+                <h3 class="mt-5 mb-3">Transactions</h3>
+                <div class="col p0">
+                    We follow a simple format you might be familiar from bitcoin:
+                    <ul>
+                        <li>transaction has a set of inputs, outputs and fee</li>
+                        <li>inputs contain source address, amount and optionally <a href="https://en.wikipedia.org/wiki/Unspent_transaction_output">UTXO<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a> pointer</li>
+                        <ul>
+                            <li>amount is the exact amount that was subtracted from the source address, tx fee included</li>
+                            <li>ERC-20 transactions contain two inputs, one for the native asset to pay fees and another one for the amount of token transferred (without scaling)</li>
+                            <li>failed ERC-20 transactions have only fee input</li>
+                        </ul>
+                        <li>outputs contain destination address and amount</li>
+                    </ul>
+                    Addresses in both inputs and outputs are in the same format as returned from node, no address conversion is done.
+                </div>
+                <h3 class="mt-5 mb-3">Versioning</h3>
+                <div class="col p0">
+                    Our API follows SEMVER versioning (without patch versions) and version is specified in the URL.
+                    Response formats are guaranteed to not change within the MAJOR.MINOR version.
+                    New MINOR versions will be backward compatible but might contain new fields.
+                    New MAJOR versions have no guarantees about compatibility but we will give you a heads-up and enough time
+                    to upgrade. Deprecated versions will have <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02">deprecation header<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a> for at-least a month before they are shut down.
+                    New versions and deprecations will also be announced through our <a href="#newsletter">newsletter</a>.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="limits">
+        <div class="container px-5 my-5">
+            <h2 class="display-10 fw-bolder mb-3">Limits</h2>
+            <div class="row ps-3">
+                <div class="col p-0">
+                    The default limit for unauthenticated user is 10,000 requests per blockchain per day.
+                    Once your limit is depleted you will receive responses with status code 429.
+                    The response will also contain <a href="https://datatracker.ietf.org/doc/html/rfc7231/#section-7.1.3">Retry-After header<i class="fa fa-external-link" style="font-size:12px;padding-left:3px"></i></a> with the amount of seconds remaining until your limit is reset.
+                    <br><br>
+                    Do you need more than that? Do you prefer dedicated deployment, perhaps even in the same cloud as your app?
+                    <a href="#contact">Reach out to us</a>.
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="newsletter">
+        <div class="container px-5 my-5">
+            <h2 class="display-10 fw-bolder mb-3">Newsletter</h2>
+            <div class="row ps-3 p-0">
+                    Do you want to stay up to date? Subscribe to our newsletter.
+                    We will let you know when:
+                    <ul class="ps-5 py-2">
+                        <li>new blockchain is added</li>
+                        <li>new API version is released</li>
+                        <li>old API version is being deprecated or scheduled for depreciation</li>
+                        <li>we make changes in pricing or default limits</li>
+                        <li>we have planned and unplanned downtime</li>
+                    </ul>
+                    and that's it. Nothing else.
+            </div>
+            <div class="row py-3">
+                <div class="col-sm-6">
+                    <form action="https://vokracko.us14.list-manage.com/subscribe/post?u=5e8abe87455d159d30c5742f4&amp;id=ad67cbab9a"
+                          method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                          class="validate" target="_blank" novalidate>
+                        <div class="input-group">
+                            <input type="email" placeholder="hello@yourdomain.tld" name="EMAIL" required
+                                   class="form-control">
+                            <div class="input-group-append">
+                                <input type="submit" value="Get notified" name="subscribe"
+                                       class="btn btn-primary form-control">
+                            </div>
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="b_5e8abe87455d159d30c5742f4_ad67cbab9a" tabindex="-1" value="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="container px-5 my-5">
+            <h2 class="display-10 fw-bolder mb-3">Contact information</h2>
+            <div class="row ps-3">
+                <div class="col px-0 py-0">
+                    You can contact us on the following email address:
+                    <a href="mailto:inbox@stocra.com">inbox@stocra.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="border-top">
+        <div class="container px-5 my-5">
+            <div class="row px-0 py-5">
+                <h3>Company</h3>
+                <div class="col ">
+                    Identification number: 88843653<br>
+                    Address: Jiráskova 256, 50723 Libáň, Czech Republic
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src=https://cdn.jsdelivr.net/npm/pretty-print-json@1.2/dist/pretty-print-json.min.js></script>
+<script>
+    let url_element = $("#url");
+    let code_area = $("#code-output");
+    let status_code = $("#status-code");
+    let options = {indent: 4, quoteKeys: true};
+    let loading = '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>';
+
+    $(document).ready(function () {
+        url_element = $("#url");
+        code_area = $("#code-output");
+        status_code = $("#status-code");
+
+        $("#run").click(function () {
+            code_area.html(loading);
+            status_code.html("-");
+            get(url_element.val());
+        });
+
+        url_element.on("keypress", function (event) {
+            if (event.which == 13 && !event.shiftKey) {
+                get(url_element.val());
+            }
+        });
+    });
+
+    function apply_example(url) {
+        code_area.html(loading);
+        status_code.html("-");
+        url_element.val(url);
+        get(url_element.val());
+    }
+
+    function get(url) {
+        $.get(url).done(function (data, textStatus, jqXHR) {
+            render_response(jqXHR);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            render_response(jqXHR);
+        });
+    }
+
+    function render_response(jqXHR) {
+        let jsonized = prettyPrintJson.toHtml(jqXHR.responseJSON, options);
+        code_area.html(jsonized);
+        status_code.html(jqXHR.status);
+    }
+</script>
+<script async src="//static.getclicky.com/101374715.js"></script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101374715ns.gif" /></p></noscript>
+</body>
+</html>

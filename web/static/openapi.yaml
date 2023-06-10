@@ -1,0 +1,345 @@
+openapi: 3.0.2
+info:
+  title: Stocra
+  version: 1.0
+servers:
+  - url: https://bitcoin.stocra.com
+  - url: https://ethereum.stocra.com
+  - url: https://dogecoin.stocra.com
+  - url: https://litecoin.stocra.com
+  - url: https://cardano.stocra.com
+  - url: https://aptos.stocra.com
+paths:
+  /v1.0/blocks/latest:
+    get:
+      summary: Get Latest Block
+      operationId: get_latest_block_blocks_latest_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+          headers:
+            Deprecated:
+              schema:
+                type: string
+                example: Sun, 11 Nov 2025 23:59:59 GMT
+              description: |
+                Optional.
+                Signal this API endpoint will be deprecated in the future [if present].<br> 
+                Implemented according to [draft-ietf-httpapi-deprecation-header-02](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02)
+            Retry-After:
+              schema:
+                type: string
+                example: 42
+              description: |
+                Optional. Sent together with http status 429.<br>
+                Number of seconds to wait before your rate-limit is reset
+                [RFC-7231#7.1.3](https://datatracker.ietf.org/doc/html/rfc7231/#section-7.1.3)
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too many requests
+        '503':
+          description: Service unavailable
+      security:
+        - HTTPBearer: []
+        - APIKeyQuery: []
+  /v1.0/blocks/{height_or_hash}:
+    get:
+      summary: Get Block
+      operationId: get_block_blocks__height_or_hash__get
+      parameters:
+        - required: true
+          schema:
+            title: Height Or Hash
+            anyOf:
+              - type: string
+              - type: integer
+          name: height_or_hash
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+          headers:
+            Deprecated:
+              schema:
+                type: string
+                example: Sun, 11 Nov 2025 23:59:59 GMT
+              description: |
+                Optional.
+                Signal this API endpoint will be deprecated in the future [if present].<br> 
+                Implemented according to [draft-ietf-httpapi-deprecation-header-02](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02)
+            Retry-After:
+              schema:
+                type: string
+                example: 42
+              description: |
+                Optional. Sent together with http status 429.<br>
+                Number of seconds to wait before your rate-limit is reset
+                [RFC-7231#7.1.3](https://datatracker.ietf.org/doc/html/rfc7231/#section-7.1.3)
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '429':
+          description: Too many requests
+        '503':
+          description: Service unavailable
+      security:
+        - HTTPBearer: []
+        - APIKeyQuery: []
+  /v1.0/transactions/{hash}:
+    get:
+      summary: Get Transaction By Hash
+      operationId: get_transaction_by_hash_transactions__hash__get
+      parameters:
+        - required: true
+          schema:
+            title: Hash
+            type: string
+          name: hash
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          headers:
+            Deprecated:
+              schema:
+                type: string
+                example: Sun, 11 Nov 2025 23:59:59 GMT
+              description: |
+                Optional.
+                Signal this API endpoint will be deprecated in the future [if present].<br> 
+                Implemented according to [draft-ietf-httpapi-deprecation-header-02](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02)
+            Retry-After:
+              schema:
+                type: string
+                example: 42
+              description: |
+                Optional. Sent together with http status 429.<br>
+                Number of seconds to wait before your rate-limit is reset
+                [RFC-7231#7.1.3](https://datatracker.ietf.org/doc/html/rfc7231/#section-7.1.3)
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+        '429':
+          description: Too many requests
+        '503':
+          description: Service unavailable
+      security:
+        - HTTPBearer: []
+        - APIKeyQuery: []
+  /v1.0/status:
+    get:
+      summary: Get Status
+      operationId: get_status_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          headers:
+            Deprecated:
+              schema:
+                type: string
+                example: Sun, 11 Nov 2025 23:59:59 GMT
+              description: |
+                Optional.
+                Signal this API endpoint will be deprecated in the future [if present].<br> 
+                Implemented according to [draft-ietf-httpapi-deprecation-header-02](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02)
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /v1.0/tokens:
+    get:
+      summary: Get recognized tokens
+      operationId: get_tokens_tokens_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - contract_address
+                properties:
+                  contract_address:
+                    $ref: '#/components/schemas/Token'
+          headers:
+            Deprecated:
+              schema:
+                type: string
+                example: Sun, 11 Nov 2025 23:59:59 GMT
+              description: |
+                Optional.
+                Signal this API endpoint will be deprecated in the future [if present].<br> 
+                Implemented according to [draft-ietf-httpapi-deprecation-header-02](https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-deprecation-header-02)
+components:
+  schemas:
+    Token:
+      title: Token
+      type: object
+      required:
+        - currency
+        - scaling
+        - type
+      properties:
+        scaling:
+          title: Scaling factor
+          type: string
+        type:
+          title: Token type - ERC20, BEP20
+          type: string
+        currency:
+          $ref: '#/components/schemas/Currency'
+    Currency:
+      title: Currency
+      type: object
+      properties:
+        symbol:
+          title: Symbol
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+        - name
+        - symbol
+    Status:
+      title: Status
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          title: Status
+          type: string
+    Block:
+      title: Block
+      required:
+        - height
+        - hash
+        - timestamp_ms
+      type: object
+      properties:
+        height:
+          title: Height
+          type: integer
+        hash:
+          title: Hash
+          type: string
+        timestamp_ms:
+          title: Timestamp in miliseconds
+          type: integer
+        transactions:
+          title: Transactions
+          type: array
+          items:
+            type: string
+          default: []
+    Input:
+      title: Input
+      type: object
+      properties:
+        address:
+          title: Address
+          type: string
+        amount:
+          $ref: '#/components/schemas/Amount'
+        transaction_pointer:
+          $ref: '#/components/schemas/TransactionPointer'
+    Output:
+      title: Output
+      required:
+        - address
+        - amount
+      type: object
+      properties:
+        address:
+          title: Address
+          type: string
+        amount:
+          $ref: '#/components/schemas/Amount'
+    Transaction:
+      title: Transaction
+      required:
+        - hash
+        - inputs
+        - outputs
+        - fee
+      type: object
+      properties:
+        hash:
+          title: Hash
+          type: string
+        inputs:
+          title: Inputs
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+        outputs:
+          title: Outputs
+          type: array
+          items:
+            $ref: '#/components/schemas/Output'
+        fee:
+          $ref: '#/components/schemas/Amount'
+    TransactionPointer:
+      title: TransactionPointer
+      required:
+        - transaction_hash
+        - output_index
+      type: object
+      properties:
+        transaction_hash:
+          title: Transaction Hash
+          type: string
+        output_index:
+          title: Output Index
+          type: integer
+    Amount:
+      title: Amount
+      required:
+        - value
+        - currency_symbol
+      type: object
+      properties:
+        value:
+          title: Value
+          type: string
+          description: | 
+            Value transferred.<br>
+            All native currencies [ETH/BTC/...] are scaled automatically to correct decimal places.<br>
+            Amounts transferred in smart contracts (token) are not scaled. See [tokens endpoint](/docs#/default/get_tokens_tokens_get) to obtain scaling information for given token
+        currency_symbol:
+          title: Currency symbol
+          type: string
+          description: |
+            Currency symbol for native currencies [ETH/BTC/...] or contract address for token transfers.<br>
+            See [tokens endpoint](/docs#/default/get_tokens_tokens_get) to convert contract addresses to token symbol
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+    APIKeyQuery:
+      type: apiKey
+      in: query
+      name: api_key
